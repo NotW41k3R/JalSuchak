@@ -1,5 +1,5 @@
 # Data Processing
-# Only CSV initially
+# Only CSV and XLSX initially
 
 import pandas as pd
 
@@ -64,7 +64,7 @@ class DataProcessor:
         filename=str(file_input).lower()
         if(filename.endswith('.csv')):
             df=pd.read_csv(file_input)
-        elif(filename.endswith('.xls','xlsx')):
+        elif(filename.endswith(('.xls','xlsx'))):
             df=pd.read_excel(file_input)
         else:
             raise ValueError("Unsupported file format. Please use an Excel or CSV file.")
