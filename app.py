@@ -5,7 +5,7 @@ from backend.features.data_processing import DataProcessor
 
 processor = DataProcessor()
 
-df=processor.load('D:\Classroom\hmpi-calculator\data\datanew.csv')
+df=processor.load('hmpi-calculator\data\datanew.csv')
 
 
 print("Loaded DataFrame shape:", df.shape)
