@@ -61,7 +61,7 @@ class DataProcessor:
     def load(self,file_input):
         # file_input='D:\Classroom\hmpi-calculator\data\datanew.csv'
         #Loading Data into a dataframe
-        filename=str(file_input).lower()
+        filename=file_input.filename.lower()
         if(filename.endswith('.csv')):
             df=pd.read_csv(file_input)
         elif(filename.endswith(('.xls','xlsx'))):
