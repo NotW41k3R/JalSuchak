@@ -8,8 +8,6 @@ from backend.features.basic_output import HMPIOutput
 # Processing Input Data
 processor = DataProcessor()
 df=processor.load('data/data_excel.xlsx') 
-print("Loaded DataFrame shape:", df.shape)
-print(df)
 print("Data Loaded Successfully")
 
 

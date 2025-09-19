@@ -8,8 +8,8 @@ class DataProcessor:
     def __init__(self):
         
         # Essential metals to be checked in every dataset
-        self.required_metals = [
-            "As", "Cd", "Cr", "Cu", "Fe", "Mn", "Ni", "Pb", "Zn"
+        self.required_columns = [
+            "As", "Cd", "Cr", "Pb", "Hg", "Ni", "Cu", "Zn", "Fe", "Mn", "Co", "Al", "Se", "Sb", "Ba", "V"
         ]
 
         # Optional Data
@@ -73,6 +73,8 @@ class DataProcessor:
         print(f"Columns: {list(df.columns)}")
 
         return df
+    
+    def cleaning_data(self, df):
 
-
-
+        df.columns = df.columns.str.strip() #removing leading and trailing spaces
+        
