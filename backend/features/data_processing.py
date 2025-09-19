@@ -1,5 +1,5 @@
 # Data Processing
-# Only CSV and XLSX initially
+# Only CSV  and XLSX initially
 
 import pandas as pd
 
@@ -74,7 +74,6 @@ class DataProcessor:
 
         return df
     
-    def cleaning_data(self, df):
-
-        df.columns = df.columns.str.strip() #removing leading and trailing spaces
+    # def cleaning_data(self, df):
+    #     df.columns = df.columns.str.strip() #removing leading and trailing spaces
         
