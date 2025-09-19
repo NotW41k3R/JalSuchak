@@ -25,7 +25,6 @@ class HMPICalculation:
             'V': {'S': 0.05, 'W': 20,     'I': 0}
             }
 
-
     def calculate(self,df):
         hmpi_list=[]
         for index, row in df.iterrows():
@@ -45,6 +44,3 @@ class HMPICalculation:
         
         df['HMPI']=hmpi_list
         return df
-
-            
-
