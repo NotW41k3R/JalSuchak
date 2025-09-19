@@ -59,3 +59,8 @@ Roadmap for Prototype :-
 9. Add User Signup/Login system to maintain and save a database uploaded by a user for multiple uses.
 
 10. With consent from the user, use their database to produce a combined map for all HMPI calculation.
+
+Tech Stack :-
+HTML, CSS, JS
+Python, Flask, Pandas, Numpy
+(Either Leaflet or Folium)
