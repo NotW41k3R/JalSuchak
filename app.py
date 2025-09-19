@@ -1,4 +1,4 @@
-print("Script started")  # Add this line at the top
+print("Script started")
 import pandas as pd
 
 from backend.features.data_processing import DataProcessor

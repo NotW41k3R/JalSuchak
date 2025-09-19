@@ -1,5 +1,5 @@
 # Data Processing
-# Only CSV initially
+# Only CSV and XLSX initially
 
 import pandas as pd
 
