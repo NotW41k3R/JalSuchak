@@ -1,0 +1,95 @@
+<!-- Created this to test easily -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Metal Data</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+        }
+        h1, h2 {
+            color: #ffffff;
+        }
+        input, button {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: none;
+        }
+        input[type="file"] {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        button {
+            background-color: #6200ee;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3700b3;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #1f1f1f;
+        }
+        tr:nth-child(even) {
+            background-color: #1a1a1a;
+        }
+        tr:nth-child(odd) {
+            background-color: #222;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Metal Concentration File</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv,.xls,.xlsx" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Data Preview</h2>
+    <div id="preview"></div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+
+            if(data.error) {
+                document.getElementById('preview').innerHTML = `<p style="color:red">${data.error}</p>`;
+                return;
+            }
+
+            let html = `<p>${data.message} (Rows: ${data.rows})</p>`;
+            html += '<table><thead><tr>';
+            data.columns.forEach(col => html += `<th>${col}</th>`);
+            html += '</tr></thead><tbody>';
+            data.preview.forEach(row => {
+                html += '<tr>';
+                data.columns.forEach(col => html += `<td>${row[col] !== null ? row[col] : ''}</td>`);
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+            document.getElementById('preview').innerHTML = html;
+        });
+    </script>
+</body>
+</html>

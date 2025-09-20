@@ -1,6 +1,6 @@
 print("Script started")
 import pandas as pd
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 from backend.features.data_processing import DataProcessor
 from backend.features.hmpi_calculation import  HMPICalculation
@@ -11,6 +11,10 @@ app=Flask(__name__)
 processor = DataProcessor()
 calculator = HMPICalculation()
 outputter = HMPIOutput()
+
+@app.route('/')
+def index():
+    return render_template('upload.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -37,10 +41,18 @@ def upload_file():
 
     # Send a preview back to frontend
     return jsonify({
-        'message': 'HMPI calculated successfully!',
-        'rows': len(df),
-        'preview': df.head(5).to_dict(orient='records')
-    })
+            'message': 'File uploaded and cleaned successfully!',
+            'rows': len(df),
+            'columns': list(df.columns),
+            'preview': df.to_dict(orient='records')
+        })
+
+    # Previous Code
+    # return jsonify({
+    #     'message': 'HMPI calculated successfully!',
+    #     'rows': len(df),
+    #     'preview': df.head(5).to_dict(orient='records')
+    # })
 
 
 if __name__ == '__main__':
