@@ -27,6 +27,7 @@ class HMPICalculation:
 
     def calculate(self, df):
         hmpi_list = []
+        poll_list=[]
 
         for index, row in df.iterrows():
             num = 0
@@ -44,11 +45,27 @@ class HMPICalculation:
                 Qi = 100 * (Mi - Ii) / (Si - Ii)
                 num += Wi * Qi
                 den += Wi
-
+            
             hmpi = num / den if den != 0 else 0
             hmpi_list.append(hmpi)
 
+            poll_level='Perfect'
+            if(hmpi<=10): 
+                poll_level='Perfect'
+            elif(hmpi<=50): 
+                poll_level= 'Good'
+            elif(hmpi<=100): 
+                poll_level= 'Moderate'
+            elif(hmpi<=200): 
+                poll_level= 'Poor'
+            elif(hmpi<=400): 
+                poll_level= 'Very Poor'
+            else: 
+                poll_level= 'Extremely Poor'
+            poll_list.append(poll_level)
+
         df['HMPI'] = hmpi_list
+        df['Pollution Level']=poll_list
         return df
     
 # class HMPICalculation:
