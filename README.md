@@ -36,17 +36,18 @@ Our Proposed Feature Ideas (Including Key Features) :-
 
 Roadmap for Prototype :-
 
-1. Basic Data Processing Module
-   Takes CSV or Excel as input and converts it to a DataFrame. (Done)
+1. Basic Data Processing Module (Done)
+   Takes CSV or Excel as input and converts it to a DataFrame then validates and convert the data to standard form (Done)
 
 2. HMPI Calculator Module. (Done)
-   Categorize groundwater quality based on HMPI thresholds.
+   Categorize groundwater quality based on HMPI thresholds. (Done)
 
-3. Generate a basic output file with HMPI Column added.
+3. Generate a basic output file with HMPI Column added. (Done)
 
-4. Good Looking UI, and Result shown directly on webpage instead of separate spreadsheet.
-   Makes it user-friendly for scientists, researchers, and policymakers.
-   Validate and standardize geo-coordinates (Latitude/Longitude) for integration with maps.
+4. Good Looking UI. (Left) 
+   Result shown directly on webpage instead of separate spreadsheet. (Done).
+   Makes it user-friendly for scientists, researchers, and policymakers. (Left)
+   Validate and standardize geo-coordinates (Latitude/Longitude) for integration with maps. (Left)
 
 5. Folium/Map Integration for basic HMPI with colored values for quality index.
 
