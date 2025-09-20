@@ -54,27 +54,28 @@
 </head>
 <body>
     <h1>Upload Metal Concentration File</h1>
+
+    <!-- Upload form -->
     <form id="uploadForm" enctype="multipart/form-data">
         <input type="file" name="file" accept=".csv,.xls,.xlsx" required>
         <button type="submit">Upload</button>
+    </form>
+
+    <!-- Button to calculate HMPI using the same file -->
+    <form id="calcForm" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv,.xls,.xlsx" required>
+        <button type="submit">Calculate HMPI</button>
     </form>
 
     <h2>Data Preview</h2>
     <div id="preview"></div>
 
     <script>
-        const form = document.getElementById('uploadForm');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
-            const response = await fetch('/upload', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await response.json();
-
-            if(data.error) {
-                document.getElementById('preview').innerHTML = `<p style="color:red">${data.error}</p>`;
+        // function to render table
+        function renderTable(data) {
+            if (data.error) {
+                document.getElementById('preview').innerHTML =
+                    `<p style="color:red">${data.error}</p>`;
                 return;
             }
 
@@ -84,11 +85,34 @@
             html += '</tr></thead><tbody>';
             data.preview.forEach(row => {
                 html += '<tr>';
-                data.columns.forEach(col => html += `<td>${row[col] !== null ? row[col] : ''}</td>`);
+                data.columns.forEach(col =>
+                    html += `<td>${row[col] !== null ? row[col] : ''}</td>`);
                 html += '</tr>';
             });
             html += '</tbody></table>';
             document.getElementById('preview').innerHTML = html;
+        }
+
+        // Upload
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+            renderTable(await response.json());
+        });
+
+        // Calculate HMPI
+        document.getElementById('calcForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/calculate', {
+                method: 'POST',
+                body: formData
+            });
+            renderTable(await response.json());
         });
     </script>
 </body>

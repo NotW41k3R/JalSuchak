@@ -29,16 +29,6 @@ def upload_file():
     df=processor.load(file) 
     print("Data Loaded Successfully")
 
-
-    # Calculating HMPI
-    print("Running Calculation Module")
-    calculator.calculate(df)
-    print(df)
-
-    # Saving output in Data Folder
-    outputter.output(df)
-    print("It Works")
-
     # Send a preview back to frontend
     return jsonify({
             'message': 'File uploaded and cleaned successfully!',
@@ -47,13 +37,29 @@ def upload_file():
             'preview': df.to_dict(orient='records')
         })
 
-    # Previous Code
-    # return jsonify({
-    #     'message': 'HMPI calculated successfully!',
-    #     'rows': len(df),
-    #     'preview': df.head(5).to_dict(orient='records')
-    # })
+@app.route('/calculate', methods=['POST'])
+def calculate_hmpi():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file uploaded'}), 400
 
+    file = request.files['file']
+    df = processor.load(file)
+
+    # Calculating HMPI
+    print("Running Calculation Module")
+    df = calculator.calculate(df)
+    print(df)
+
+    # Saving output in Data Folder
+    outputter.output(df)
+    print("It Works")
+
+    return jsonify({
+        'message': 'HMPI calculated successfully!',
+        'rows': len(df),
+        'columns': list(df.columns),
+        'preview': df.to_dict(orient='records')
+        })
 
 if __name__ == '__main__':
     app.run(debug=True)

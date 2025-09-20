@@ -8,9 +8,8 @@ class DataProcessor:
     def __init__(self):
         
         # Essential metals to be checked in every dataset
-        self.required_columns = [
-            "As", "Cd", "Cr", "Pb", "Hg", "Ni", "Cu", "Zn", "Fe", "Mn", "Co", "Al", "Se", "Sb", "Ba", "V"
-        ]
+        self.required_columns = ["as", "cd", "cr", "pb", "hg", "ni", "cu", "zn", "fe", "mn", "co", "al", "se", "sb", "ba", "v"]
+
 
         # Optional Data
         self.optional_columns = [
@@ -47,15 +46,15 @@ class DataProcessor:
 
         # Map full names of metals to their standard symbols
         self.metal_mappings = {
-            "arsenic": "As",
-            "cadmium": "Cd",
-            "chromium": "Cr",
-            "copper": "Cu",
-            "iron": "Fe",
-            "manganese": "Mn",
-            "nickel": "Ni",
-            "lead": "Pb",
-            "zinc": "Zn"
+            "arsenic": "as",
+            "cadmium": "cd",
+            "chromium": "cr",
+            "copper": "cu",
+            "iron": "fe",
+            "manganese": "mn",
+            "nickel": "ni",
+            "lead": "pb",
+            "zinc": "zn"
         }
 
     def load(self,file_input):
@@ -72,79 +71,48 @@ class DataProcessor:
         print(f"Loaded data shape: {df.shape}")
         print(f"Columns: {list(df.columns)}")
 
+        df = self.cleaning_data(df)
+
         return df
-    
-    # def cleaning_data(self, df):
-    #     """
-    #     Clean and standardize a metal concentration dataset.
-    #     1. Strip and normalize column names
-    #     2. Strip and lowercase string values
-    #     3. Normalize metal column names (full names → symbols)
-    #     4. Convert metal columns to numeric, fix negatives
-    #     5. Convert coordinates to numeric and check validity
-    #     """
 
-    #     df.columns = df.columns.str.strip().str.lower()
-    #     df.rename(columns={k.lower(): v for k, v in self.column_mappings.items()}, inplace=True)
-    #     df.rename(columns={k.lower(): v for k, v in self.metal_mappings.items()}, inplace=True)
-        
-    #     for col in df.select_dtypes(include='object').columns:
-    #         df[col] = df[col].str.strip().str.lower()
-        
-    #     for col in self.required_columns:
-    #         if col in df.columns:
-    #             df[col] = pd.to_numeric(df[col], errors='coerce')  # convert strings to numbers
-    #             df[col] = df[col].clip(lower=0)  # replace negative values with 0
-        
-    #     has_coordinates = False
+    def cleaning_data(self, df):
+        """
+        Clean and standardize a metal concentration dataset.
+        Steps:
+        1. Strip and normalize column names
+        2. Strip and lowercase string values
+        3. Normalize metal column names (full names → symbols)
+        4. Convert metal columns to numeric, handle negatives and missing values
+        5. Convert coordinates to numeric and filter valid ranges
+        """
 
-    #     if 'Latitude' in df.columns and 'Longitude' in df.columns:
-    #         has_coordinates = True
-    #         # Convert to numeric and filter valid ranges
-    #         df['Latitude'] = pd.to_numeric(df['Latitude'], errors='coerce')
-    #         df['Longitude'] = pd.to_numeric(df['Longitude'], errors='coerce')
-    #         df = df[df['Latitude'].between(-90, 90, na=False) & df['Longitude'].between(-180, 180, na=False)]
-        
-    #     return df
+        # 1. Normalize column names
+        df.columns = df.columns.str.strip().str.lower()
+        df.rename(columns={k.lower(): v for k, v in self.column_mappings.items()}, inplace=True)
+        df.rename(columns={k.lower(): v for k, v in self.metal_mappings.items()}, inplace=True)
 
-    # def cleaning_data(self, df):
-    #     """
-    #     Clean and standardize a metal concentration dataset.
-    #     Steps:
-    #     1. Strip and normalize column names
-    #     2. Strip and lowercase string values
-    #     3. Normalize metal column names (full names → symbols)
-    #     4. Convert metal columns to numeric, handle negatives and missing values
-    #     5. Convert coordinates to numeric and filter valid ranges
-    #     """
+        # 2. Strip and lowercase all string/object columns
+        for col in df.select_dtypes(include='object').columns:
+            df[col] = df[col].astype(str).str.strip().str.lower()
+            # Convert empty strings or 'nd' to NaN
+            df[col] = df[col].replace({'': pd.NA, 'nd': pd.NA})
 
-    #     # --- 1. Normalize column names ---
-    #     df.columns = df.columns.str.strip().str.lower()
-    #     df.rename(columns={k.lower(): v for k, v in self.column_mappings.items()}, inplace=True)
-    #     df.rename(columns={k.lower(): v for k, v in self.metal_mappings.items()}, inplace=True)
+        # 3. Convert metal columns to numeric
+        for col in self.required_columns:
+            if col in df.columns:
+                # Strip & convert
+                df[col] = pd.to_numeric(df[col], errors='coerce')
+                # Replace negative values with 0
+                df[col] = df[col].clip(lower=0)
 
-    #     # --- 2. Strip and lowercase all string/object columns ---
-    #     for col in df.select_dtypes(include='object').columns:
-    #         df[col] = df[col].astype(str).str.strip().str.lower()
-    #         # Convert empty strings or 'nd' to NaN
-    #         df[col] = df[col].replace({'': pd.NA, 'nd': pd.NA})
+        # 4. Handle coordinates if present
+        if 'Latitude' in df.columns and 'Longitude' in df.columns:
+            df['Latitude'] = pd.to_numeric(df['Latitude'], errors='coerce')
+            df['Longitude'] = pd.to_numeric(df['Longitude'], errors='coerce')
+            # Keep only valid coordinate ranges
+            df = df[
+                df['Latitude'].between(-90, 90, na=False) &
+                df['Longitude'].between(-180, 180, na=False)
+            ]
 
-    #     # --- 3. Convert metal columns to numeric ---
-    #     for col in self.required_columns:
-    #         if col in df.columns:
-    #             # Strip & convert
-    #             df[col] = pd.to_numeric(df[col], errors='coerce')
-    #             # Replace negative values with 0
-    #             df[col] = df[col].clip(lower=0)
-
-    #     # --- 4. Handle coordinates if present ---
-    #     if 'Latitude' in df.columns and 'Longitude' in df.columns:
-    #         df['Latitude'] = pd.to_numeric(df['Latitude'], errors='coerce')
-    #         df['Longitude'] = pd.to_numeric(df['Longitude'], errors='coerce')
-    #         # Keep only valid coordinate ranges
-    #         df = df[
-    #             df['Latitude'].between(-90, 90, na=False) &
-    #             df['Longitude'].between(-180, 180, na=False)
-    #         ]
-
-    #     return df
+        return df
