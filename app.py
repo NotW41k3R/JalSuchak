@@ -9,7 +9,11 @@ from backend.features.basic_output import HMPIOutput
 from backend.features.better_df import PrettyColumns
 from werkzeug.utils import secure_filename
 
-app=Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder="frontend/templates",
+    static_folder="frontend/static"
+)
 app.secret_key = 'some-secret'
 
 UPLOAD_FOLDER = os.path.join('data', 'uploads')
@@ -20,6 +24,7 @@ processor = DataProcessor()
 calculator = HMPICalculation()
 outputter = HMPIOutput()
 format = PrettyColumns()
+
 
 # Home Page
 @app.route('/')
@@ -79,9 +84,10 @@ def calculate_hmpi():
         'preview': df2.to_dict(orient='records')
         })
 
+# # Generate Map
+# @app.route('/map', methods=['GET'])
+# def generate_map():
 
-# Generate Map
-# @app.route('/map', methods=[])
 
 if __name__ == '__main__':
     app.run(debug=True)
