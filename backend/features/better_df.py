@@ -10,6 +10,7 @@ class PrettyColumns:
             "location": "Location",
             "date_collected": "Date Collected",
             "as": "As",
+            "pb": "Pb",
             "cd": "Cd",
             "cr": "Cr",
             "cr+6": "Cr+6",
