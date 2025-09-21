@@ -5,12 +5,15 @@ from flask import Flask, request, jsonify, render_template
 from backend.features.data_processing import DataProcessor
 from backend.features.hmpi_calculation import  HMPICalculation
 from backend.features.basic_output import HMPIOutput
+from backend.features.better_df import PrettyColumns
 
 app=Flask(__name__)
 
 processor = DataProcessor()
 calculator = HMPICalculation()
 outputter = HMPIOutput()
+format = PrettyColumns()
+
 
 @app.route('/')
 def index():
@@ -50,9 +53,12 @@ def calculate_hmpi():
     df = calculator.calculate(df)
     print(df)
 
+    df = format.prettify(df)
     # Saving output in Data Folder
     outputter.output(df)
     print("It Works")
+
+
 
     return jsonify({
         'message': 'HMPI calculated successfully!',

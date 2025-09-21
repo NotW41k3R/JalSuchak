@@ -14,35 +14,36 @@ class DataProcessor:
 
         # Optional Data
         self.optional_columns = [
-            "Sample_ID", "Latitude", "Longitude", "Location", "Date_Collected"
+            "sample_id", "latitude", "longitude", "location", "date_collected"
         ]
 
         # Normalize common variations of column names
         self.column_mappings = {
             # Samples
-            "sample_id": "Sample_ID",
-            "sampleid": "Sample_ID",
-            "id": "Sample_ID",
-            "sample": "Sample_ID",
+            "sample_id": "sample_id",
+            "sampleid": "sample_id",
+            "id": "sample_id",
+            "sample": "sample_id",
+            "ss" : "sample_id",
 
             # Geo-Coordinates
-            "lat": "Latitude",
-            "latitude": "Latitude",
-            "lon": "Longitude",
-            "lng": "Longitude",
-            "long": "Longitude",
-            "longitude": "Longitude",
+            "lat": "latitude",
+            "latitude": "latitude",
+            "lon": "longitude",
+            "lng": "longitude",
+            "long": "longitude",
+            "longitude": "longitude",
 
             # Site or locations
-            "location": "Location",
-            "site": "Location",
-            "place": "Location",
+            "location": "location",
+            "site": "location",
+            "place": "location",
 
             # Dates
-            "date": "Date_Collected",
-            "date_collected": "Date_Collected",
-            "sampling_date": "Date_Collected",
-            "collection_date": "Date_Collected"
+            "date": "date_collected",
+            "date_collected": "date_collected",
+            "sampling_date": "date_collected",
+            "collection_date": "date_collected"
         }
 
         # Map full names of metals to their standard symbols
