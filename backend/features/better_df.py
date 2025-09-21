@@ -24,6 +24,7 @@ class PrettyColumns:
             "se": "Se",
             "sb": "Sb",
             "ba": "Ba",
+            "hg": "Hg",
             "v": "V"
         }
 

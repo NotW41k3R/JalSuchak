@@ -62,7 +62,7 @@ def upload_file():
             'message': 'File uploaded and cleaned successfully!',
             'rows': len(df),
             'columns': list(df.columns),
-            'preview': df.to_dict(orient='records')
+            'preview': df.head(30).to_dict(orient='records')
         })
 
 # Calculate
@@ -87,7 +87,7 @@ def calculate_hmpi():
         'message': 'HMPI calculated successfully!',
         'rows': len(df2),
         'columns': list(df2.columns),
-        'preview': df2.to_dict(orient='records')
+        'preview': df2.head(30).to_dict(orient='records')
         })
 
 # Generate Map
