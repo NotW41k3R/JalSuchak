@@ -70,8 +70,17 @@ class DataProcessor:
         # else:
         #     raise ValueError("Unsupported file format. Please use an Excel or CSV file.")
 
-        #Trying to Implement a better loading method
-        ext = os.path.splitext(file_input.filename)[1].lower()
+        # #Trying to Implement a better loading method
+        # ext = os.path.splitext(file_input.filename)[1].lower()
+
+        # Check if input is file-like or path
+
+        if hasattr(file_input, 'filename'):
+            filename = file_input.filename
+        else:
+            filename = file_input  # filepath string
+
+        ext = os.path.splitext(filename)[1].lower()
 
         loaders = {
             '.csv': pd.read_csv,
@@ -135,3 +144,11 @@ class DataProcessor:
             ]
 
         return df
+
+    def coordinates_check(self, df):
+        has_coordinates = False
+        cols = [c.lower() for c in df.columns]
+        if 'latitude' in cols and 'longitude' in cols:
+            has_coordinates = True
+
+        return has_coordinates

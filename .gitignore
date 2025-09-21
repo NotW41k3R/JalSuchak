@@ -181,3 +181,4 @@ cython_debug/
 .cursorindexingignore
 data/hmpi_results.csv
 data/hmpi_results.csv
+/data/uploads

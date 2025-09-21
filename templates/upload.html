@@ -1,4 +1,3 @@
-<!-- Created this to test easily -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,23 +54,22 @@
 <body>
     <h1>Upload Metal Concentration File</h1>
 
-    <!-- Upload form -->
+    <!-- Single Upload Form -->
     <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".csv,.xls,.xlsx" required>
-        <button type="submit">Upload</button>
+        <input type="file" id="fileInput" name="file" accept=".csv,.xls,.xlsx" required>
+        <button type="submit">Upload & Preview</button>
     </form>
 
-    <!-- Button to calculate HMPI using the same file -->
-    <form id="calcForm" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".csv,.xls,.xlsx" required>
-        <button type="submit">Calculate HMPI</button>
-    </form>
+    <!-- Calculate HMPI Button -->
+    <button id="calcButton" disabled>Calculate HMPI</button>
 
     <h2>Data Preview</h2>
     <div id="preview"></div>
 
     <script>
-        // function to render table
+        let uploadedFile = null;
+
+        // Function to render table
         function renderTable(data) {
             if (data.error) {
                 document.getElementById('preview').innerHTML =
@@ -93,21 +91,30 @@
             document.getElementById('preview').innerHTML = html;
         }
 
-        // Upload
+        // Upload event
         document.getElementById('uploadForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
+            uploadedFile = formData.get('file'); // store file
+
             const response = await fetch('/upload', {
                 method: 'POST',
                 body: formData
             });
-            renderTable(await response.json());
+            const data = await response.json();
+            renderTable(data);
+
+            // Enable calculate button
+            document.getElementById('calcButton').disabled = false;
         });
 
-        // Calculate HMPI
-        document.getElementById('calcForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
+        // Calculate HMPI event
+        document.getElementById('calcButton').addEventListener('click', async () => {
+            if (!uploadedFile) return alert("No file uploaded!");
+
+            const formData = new FormData();
+            formData.append('file', uploadedFile);
+
             const response = await fetch('/calculate', {
                 method: 'POST',
                 body: formData
