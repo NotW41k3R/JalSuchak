@@ -111,12 +111,17 @@ class DataProcessor:
             df[col] = df[col].replace({'': pd.NA, 'nd': pd.NA})
 
         # 3. Convert metal columns to numeric
-        for col in self.required_columns:
-            if col in df.columns:
-                # Strip & convert
-                df[col] = pd.to_numeric(df[col], errors='coerce')
-                # Replace negative values with 0
-                df[col] = df[col].clip(lower=0)
+        for col in df.columns:
+            if col not in ['Sample_ID', 'Latitude', 'Longitude', 'Location', 'Date_Collected']:
+                # Try to convert to numeric
+                df[col] = pd.to_numeric(df[col], errors='coerce').clip(lower=0).fillna(0)
+
+        # for col in self.required_columns:
+        #     if col in df.columns:
+        #         # Strip & convert
+        #         df[col] = pd.to_numeric(df[col], errors='coerce')
+        #         # Replace negative values with 0 and convert missing/empty values to 0
+        #         df[col] = df[col].clip(lower=0).fillna(0)
 
         # 4. Handle coordinates if present
         if 'Latitude' in df.columns and 'Longitude' in df.columns:
