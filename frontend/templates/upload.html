@@ -63,6 +63,9 @@
     <!-- Calculate HMPI Button -->
     <button id="calcButton" disabled>Calculate HMPI</button>
 
+    <!-- Map Button -->
+    <button id="mapButton" disabled>View Map</button>
+
     <h2>Data Preview</h2>
     <div id="preview"></div>
 
@@ -119,7 +122,17 @@
                 method: 'POST',
                 body: formData
             });
-            renderTable(await response.json());
+            const data = await response.json();
+            renderTable(data);
+
+            // Enable map button
+            document.getElementById('mapButton').disabled = false;
+        });
+
+        // View Map event
+        document.getElementById('mapButton').addEventListener('click', () => {
+            // Open map.html in a new tab
+            window.open('/map', '_blank');
         });
     </script>
 </body>
