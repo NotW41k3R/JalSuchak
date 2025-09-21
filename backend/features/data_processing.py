@@ -25,6 +25,8 @@ class DataProcessor:
             "id": "sample_id",
             "sample": "sample_id",
             "ss" : "sample_id",
+            "station_na" : "sample_id",
+            "station_no" : "sample_id",
 
             # Geo-Coordinates
             "lat": "latitude",
