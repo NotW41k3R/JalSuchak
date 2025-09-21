@@ -1,6 +1,7 @@
 # Data Processing
 # Only CSV  and XLSX initially
 
+import os
 import pandas as pd
 
 class DataProcessor:
@@ -58,16 +59,29 @@ class DataProcessor:
         }
 
     def load(self,file_input):
-        # file_input='D:\Classroom\hmpi-calculator\data\datanew.csv'
         #Loading Data into a dataframe
-        filename=file_input.filename.lower()
-        if(filename.endswith('.csv')):
-            df=pd.read_csv(file_input)
-        elif(filename.endswith(('.xls','xlsx'))):
-            df=pd.read_excel(file_input)
-        else:
-            raise ValueError("Unsupported file format. Please use an Excel or CSV file.")
+
+        # filename=file_input.filename.lower()
+        # if(filename.endswith('.csv')):
+        #     df=pd.read_csv(file_input)
+        # elif(filename.endswith(('.xls','xlsx'))):
+        #     df=pd.read_excel(file_input)
+        # else:
+        #     raise ValueError("Unsupported file format. Please use an Excel or CSV file.")
+
+        #Trying to Implement a better loading method
+        ext = os.path.splitext(file_input.filename)[1].lower()
+
+        loaders = {
+            '.csv': pd.read_csv,
+            '.xls': pd.read_excel,
+            '.xlsx': pd.read_excel,
+            }
         
+        if ext not in loaders:
+            raise ValueError(f"Unsupported file format: {ext}. Please upload CSV or Excel.")
+        
+        df = loaders[ext](file_input)
         print(f"Loaded data shape: {df.shape}")
         print(f"Columns: {list(df.columns)}")
 
@@ -76,15 +90,14 @@ class DataProcessor:
         return df
 
     def cleaning_data(self, df):
-        """
-        Clean and standardize a metal concentration dataset.
-        Steps:
-        1. Strip and normalize column names
-        2. Strip and lowercase string values
-        3. Normalize metal column names (full names → symbols)
-        4. Convert metal columns to numeric, handle negatives and missing values
-        5. Convert coordinates to numeric and filter valid ranges
-        """
+        
+        # Clean and standardize a metal concentration dataset.
+        # Steps:
+        # 1. Strip and normalize column names
+        # 2. Strip and lowercase string values
+        # 3. Normalize metal column names (full names → symbols)
+        # 4. Convert metal columns to numeric, handle negatives and missing values
+        # 5. Convert coordinates to numeric and filter valid ranges
 
         # 1. Normalize column names
         df.columns = df.columns.str.strip().str.lower()
