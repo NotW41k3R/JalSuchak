@@ -63,18 +63,6 @@ class DataProcessor:
 
     def load(self,file_input):
         #Loading Data into a dataframe
-
-        # filename=file_input.filename.lower()
-        # if(filename.endswith('.csv')):
-        #     df=pd.read_csv(file_input)
-        # elif(filename.endswith(('.xls','xlsx'))):
-        #     df=pd.read_excel(file_input)
-        # else:
-        #     raise ValueError("Unsupported file format. Please use an Excel or CSV file.")
-
-        # #Trying to Implement a better loading method
-        # ext = os.path.splitext(file_input.filename)[1].lower()
-
         # Check if input is file-like or path
 
         if hasattr(file_input, 'filename'):
@@ -102,14 +90,6 @@ class DataProcessor:
         return df
 
     def cleaning_data(self, df):
-        
-        # Clean and standardize a metal concentration dataset.
-        # Steps:
-        # 1. Strip and normalize column names
-        # 2. Strip and lowercase string values
-        # 3. Normalize metal column names (full names → symbols)
-        # 4. Convert metal columns to numeric, handle negatives and missing values
-        # 5. Convert coordinates to numeric and filter valid ranges
 
         # 1. Normalize column names
         df.columns = df.columns.str.strip().str.lower()
@@ -127,13 +107,6 @@ class DataProcessor:
             if col not in ['Sample_ID', 'Latitude', 'Longitude', 'Location', 'Date_Collected']:
                 # Try to convert to numeric
                 df[col] = pd.to_numeric(df[col], errors='coerce').clip(lower=0).fillna(0)
-
-        # for col in self.required_columns:
-        #     if col in df.columns:
-        #         # Strip & convert
-        #         df[col] = pd.to_numeric(df[col], errors='coerce')
-        #         # Replace negative values with 0 and convert missing/empty values to 0
-        #         df[col] = df[col].clip(lower=0).fillna(0)
 
         # 4. Handle coordinates if present
         if 'Latitude' in df.columns and 'Longitude' in df.columns:
