@@ -34,10 +34,18 @@ class GeoSpatialAnalyser:
         gdf.set_crs(epsg=4326, inplace=True)  # Setting WGS84 standard
 
         gdf['color'] = gdf['HMPI'].apply(self.hmpi_color) # Sets color for each HMPI Value
+    
+        gdf['Info:'] = (
+            "<b>Sample ID:</b> " + gdf['sample_id'].astype(str) +
+            "<br><b>HMPI:</b> " + gdf['HMPI'].round(2).astype(str) +
+            "<br><b>Pollution Level:</b> " + gdf['Pollution Level']
+        )
 
+        gdf['HMPI'] = gdf['HMPI'].round(2).astype(str)
+        
         m = gdf.explore(
             color='color', # Sets Color for HMPI Pointer
-            popup=['sample_id','HMPI','Pollution Level'],# Popup when clicked
+            popup='Info:',# Popup when clicked
             tooltip='HMPI',    # Show on hover
             tiles='CartoDB positron',  # map style
             marker_kwds={'radius': 8, 'fill': True, 'color': 'black'}, # Describe the Point
