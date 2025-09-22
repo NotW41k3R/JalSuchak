@@ -27,6 +27,15 @@ class DataProcessor:
             "ss" : "sample_id",
             "station_na" : "sample_id",
             "station_no" : "sample_id",
+            "station_name" : "sample_id",
+            "station" : "sample_id",
+            "site_name" : "sample_id",
+            "site" : "sample_id",
+            "monitoring_station" : "sample_id",
+            "station_no" : "sample_id",
+            "location": "sample_id",
+            "place": "sample_id",
+            "station_id": "sample_id",
 
             # Geo-Coordinates
             "lat": "latitude",
@@ -35,11 +44,6 @@ class DataProcessor:
             "lng": "longitude",
             "long": "longitude",
             "longitude": "longitude",
-
-            # Site or locations
-            "location": "location",
-            "site": "location",
-            "place": "location",
 
             # Dates
             "date": "date_collected",
@@ -96,15 +100,22 @@ class DataProcessor:
         df.rename(columns={k.lower(): v for k, v in self.column_mappings.items()}, inplace=True)
         df.rename(columns={k.lower(): v for k, v in self.metal_mappings.items()}, inplace=True)
 
+        if 'sample_id' not in df.columns:
+            df['sample_id'] = [f"Station {i+1}" for i in range(len(df))]
+        df.insert(0, 'sample_id', df.pop('sample_id'))
+
         # 2. Strip and lowercase all string/object columns
         for col in df.select_dtypes(include='object').columns:
-            df[col] = df[col].astype(str).str.strip().str.lower()
-            # Convert empty strings or 'nd' to NaN
-            df[col] = df[col].replace({'': pd.NA, 'nd': pd.NA})
+            if col != 'sample_id':   # keep station names as-is
+                df[col] = df[col].astype(str).str.strip().str.lower()
+                df[col] = df[col].replace({'': pd.NA, 'nd': pd.NA})
+            else:  # still strip spaces but don’t lowercase
+                df[col] = df[col].astype(str).str.strip()
+                df[col] = df[col].replace({'': pd.NA, 'nd': pd.NA})
 
         # 3. Convert metal columns to numeric
         for col in df.columns:
-            if col not in ['Sample_ID', 'Latitude', 'Longitude', 'Location', 'Date_Collected']:
+            if col not in ['sample_id', 'latitude', 'longitude', 'location', 'date_collected']:
                 # Try to convert to numeric
                 df[col] = pd.to_numeric(df[col], errors='coerce').clip(lower=0).fillna(0)
 
