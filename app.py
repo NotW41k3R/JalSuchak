@@ -105,13 +105,22 @@ def generate_map():
         df.to_pickle(session['df_cache'])
         print("HMPI column calculated automatically.")
 
+    # print("Running Geospatial Analysis Module")
+    # if processor.coordinates_check(df):
+    #     html_path = geospatial.geospatial_analysis(df)
+    #     # return the HTML content as text
+    #     with open(html_path, 'r', encoding='utf-8') as f:
+    #         return f.read()
+    # else:
+    #     return "No coordinates found in data.", 400
+
     print("Running Geospatial Analysis Module")
     if processor.coordinates_check(df):
-        geospatial.geospatial_analysis(df)
-        return render_template('map.html')
+        map_html = geospatial.geospatial_analysis(df)
+        # Instead of saving a full HTML file, return just the map <div> as string
+        return map_html
     else:
         return "No coordinates found in data.", 400
-
 
 if __name__ == '__main__':
     app.run(debug=True)

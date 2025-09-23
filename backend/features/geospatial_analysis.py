@@ -52,7 +52,8 @@ class GeoSpatialAnalyser:
             zoom_start=15
         )
 
-        # Save map to HTML
-        map_path = os.path.join('frontend', 'templates', 'map.html')
-        m.save(map_path)
-        print(f"Map saved to {map_path}")
+        # map_path = os.path.join('frontend', 'templates', 'map.html')
+        # m.save(map_path)
+        # return map_path
+
+        return m._repr_html_()
