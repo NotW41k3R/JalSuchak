@@ -65,4 +65,4 @@ Front-end: HTML, CSS, JS
 
 Back-end: Python (Pandas, Numpy, Flask)
 
-Map: Pandas and Folium
+Map: GeoPandas and Folium
