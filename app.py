@@ -99,6 +99,12 @@ def generate_map():
     
     df = pd.read_pickle(session['df_cache'])
 
+    if 'HMPI' not in df.columns:
+        # Optionally auto-calculate
+        df = calculator.calculate(df)
+        df.to_pickle(session['df_cache'])
+        print("HMPI column calculated automatically.")
+
     print("Running Geospatial Analysis Module")
     if processor.coordinates_check(df):
         geospatial.geospatial_analysis(df)
