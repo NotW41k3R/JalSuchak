@@ -1,4 +1,4 @@
-JalSuchak - A Heavy Metal Water Pollution Index Calculator 
+JalSuchak - A tool for visualising and analysing Heavy Metal Water Pollution Indices
 
 Background :-
 
