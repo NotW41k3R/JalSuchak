@@ -162,9 +162,30 @@ async function handleCalculate() {
 }
 
 // View Map handler: switches to map view and keeps previewData available for mapping
+// Old:
+// function handleViewMap() {
+//     window.open('/map', '_blank')
+// }
+
+//I have changed handleViewMap a bit, so take a look and tweak it if necessary
+// New:
 function handleViewMap() {
-    window.open('/map', '_blank')
+    const mapContainer = document.getElementById('map-container');
+    mapContainer.innerHTML = '<div class="map-placeholder"><i class="fas fa-map-marked-alt fa-3x"></i><p>Loading map...</p></div>';
+
+    fetch('/map')
+        .then(resp => resp.text())
+        .then(html => {
+            // Replace placeholder with map HTML
+            mapContainer.innerHTML = html;
+        })
+        .catch(err => {
+            mapContainer.innerHTML = '<div class="map-placeholder"><p style="color:red;">Failed to load map.</p></div>';
+            console.error(err);
+        });
 }
+
+
 
 // Reset handler: clears uploaded file and preview and returns to home
 function handleReset() {
