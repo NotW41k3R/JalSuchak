@@ -61,6 +61,8 @@ Roadmap for Prototype :-
 10. With consent from the user, use their database to produce a combined map for all HMPI calculation.
 
 Tech Stack :-
-Front-end: HTML, CSS, JS \n
-Back-end: Python (Pandas, Numpy, Flask) \n
+Front-end: HTML, CSS, JS
+
+Back-end: Python (Pandas, Numpy, Flask)
+
 Map: Pandas and Folium
