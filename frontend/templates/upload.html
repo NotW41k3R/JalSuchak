@@ -1,139 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Upload Metal Data</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #e0e0e0;
-            font-family: Arial, sans-serif;
-        }
-        h1, h2 {
-            color: #ffffff;
-        }
-        input, button {
-            padding: 8px;
-            margin: 5px 0;
-            border-radius: 4px;
-            border: none;
-        }
-        input[type="file"] {
-            background-color: #1e1e1e;
-            color: #e0e0e0;
-        }
-        button {
-            background-color: #6200ee;
-            color: #ffffff;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #3700b3;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 15px;
-        }
-        th, td {
-            border: 1px solid #444;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #1f1f1f;
-        }
-        tr:nth-child(even) {
-            background-color: #1a1a1a;
-        }
-        tr:nth-child(odd) {
-            background-color: #222;
-        }
-    </style>
-</head>
-<body>
-    <h1>Upload Metal Concentration File</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HMPI Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="logo-section">
+        <i class="fas fa-flask"></i>
+        <h1>HMPI</h1>
+      </div>
+  
+    </nav>
 
-    <!-- Single Upload Form -->
-    <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" id="fileInput" name="file" accept=".csv,.xls,.xlsx" required>
-        <button type="submit">Upload & Preview</button>
-    </form>
+    <div class="main-layout-container">
+      <main class="main-content-area">
+        <div id="home-view">
+          <section>
+            <h2><i class="fas fa-cogs"></i> How It Works</h2>
+            <div class="grid-container">
+              <div class="grid-item">
+                <div class="step-icon" id="step-icon-1">1</div>
+                <h3>Upload Data</h3>
+                <p>Provide your data in a CSV file.</p>
+              </div>
+              <div class="grid-item">
+                <div class="step-icon" id="step-icon-2">2</div>
+                <h3>Automated Analysis</h3>
+                <p>The app instantly calculates the HMPI for each sample.</p>
+              </div>
+              <div class="grid-item">
+                <div class="step-icon" id="step-icon-3">3</div>
+                <h3>View Results</h3>
+                <p>Access tables and summaries of your pollution data.</p>
+              </div>
+            </div>
+          </section>
 
-    <!-- Calculate HMPI Button -->
-    <button id="calcButton" disabled>Calculate HMPI</button>
+          <section id="calculator-section">
+            <h2><i class="fas fa-calculator"></i> HMPI Calculator</h2>
+            <div class="main-panel">
+              <h3><i class="fas fa-upload"></i> Upload Data</h3>
+              <div id="loading-spinner" class="hidden">
+                <div class="spinner"></div>
+              </div>
 
-    <!-- Map Button -->
-    <button id="mapButton" disabled>View Map</button>
+              <div id="file-input-section">
+                <p>
+                  Upload an Excel or CSV file containing groundwater heavy metal
+                  concentration data. The file must contain columns named "Cd",
+                  "Cu", "Fe", "Mn", "Pb", "Zn", and "Ni".
+                </p>
 
-    <h2>Data Preview</h2>
-    <div id="preview"></div>
+                <input
+                  type="file"
+                  id="fileInput"
+                  accept=".csv, .xlsx, .xls"
+                  required
+                />
 
-    <script>
-        let uploadedFile = null;
+                <div class="button-group" id="main-button-group">
+                  <button id="upload-preview-btn" class="btn-upload-preview">
+                    Upload & Preview
+                  </button>
+                  <button id="calculate-btn" class="btn-calculate" disabled>
+                    Calculate
+                  </button>
+                  <button id="view-map-btn" class="btn-view-map" disabled>
+                    View Map
+                  </button>
+                  <button id="reset-btn" class="btn-reset" disabled>
+                    Reset
+                  </button>
+                </div>
+              </div>
+              <div id="status-message"></div>
+            </div>
+          </section>
+          
+          
+        </div>
+        
+      </main>
+      
+      <aside class="sidebar-area">
+        <section class="key-features-sidebar">
+          <h2><i class="fas fa-check-circle"></i> Key Features</h2>
+          <div class="feature-card-sidebar">
+            <i class="fas fa-cogs"></i>
+            <h3>Automated Computation</h3>
+            <p>Quickly calculate HMPI using standardized methodologies.</p>
+          </div>
+          <div class="feature-card-sidebar">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Geo-Data Integration</h3>
+            <p>
+              Integrate groundwater data with geo-coordinates for spatial
+              analysis.
+            </p>
+          </div>
+          <div class="feature-card-sidebar">
+            <i class="fas fa-water"></i>
+            <h3>Quality Categorization</h3>
+            <p>Categorize water quality based on HMPI thresholds.</p>
+          </div>
+          <div class="feature-card-sidebar">
+            <i class="fas fa-chart-line"></i>
+            <h3>Trend Analysis</h3>
+            <p>
+              Visualize data trends and temporal patterns with interactive
+              graphs.
+            </p>
+          </div>
+          <div class="feature-card-sidebar">
+            <i class="fas fa-file-pdf"></i>
+            <h3>Automated Reports</h3>
+            <p>
+              Generate comprehensive PDF reports for easy research and sharing.
+            </p>
+          </div>
+        </section>
+      </aside>
+    </div>
+    <div id="hide">
+      <section id="data-preview-section" class="hidden">
+        <h2>Data Preview</h2>
+        <div id="preview-actions" class="preview-actions hidden">
+          <div class="button-group">
+            <button id="calculate-btn-preview" class="btn-calculate" disabled>
+                  Calculate
+                </button>
+                <button id="view-map-btn-preview" class="btn-view-map" disabled>
+                  View Map
+                </button>
+                <button id="reset-btn-preview" class="btn-reset" disabled>
+                  Reset
+                </button>
+              </div>
+            </div>
+            <div id="preview"></div>
+          </section>
+          
+          <section id="map-section" calss="hidden">
+            <h2>
+              <i class="fas fa-map-marker-alt"></i> Heavy Metal Pollution Map
+            </h2>
+            <div id="map-container">
+              <div class="map-placeholder">
+                <i class="fas fa-map-marked-alt fa-3x"></i>
+                <p>Map will be displayed here after calculation.</p>
+                <p style="font-size:0.9rem; color:#9ca3af; margin-top:0.5rem;">
+                  (Hook your mapping implementation to the data returned by /calculate)
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
 
-        // Function to render table
-        function renderTable(data) {
-            if (data.error) {
-                document.getElementById('preview').innerHTML =
-                    `<p style="color:red">${data.error}</p>`;
-                return;
-            }
+        <footer>
+      <div>
+          <section class="hero-section">
+        <h1>Heavy Metal Pollution Index (HMPI) Calculator</h1>
+        <p>
+          An automated, reliable, and user-friendly application for
+          assessing groundwater heavy metal pollution.
+        </p>
+      </section>
+      </div>
+      <p>&copy; HMPI Calculator</p>
+    </footer>
 
-            let html = `<p>${data.message} (Rows: ${data.rows})</p>`;
-            html += '<table><thead><tr>';
-            data.columns.forEach(col => html += `<th>${col}</th>`);
-            html += '</tr></thead><tbody>';
-            data.preview.forEach(row => {
-                html += '<tr>';
-                data.columns.forEach(col =>
-                    html += `<td>${row[col] !== null ? row[col] : ''}</td>`);
-                html += '</tr>';
-            });
-            html += '</tbody></table>';
-            document.getElementById('preview').innerHTML = html;
-        }
-
-        // Upload event
-        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            uploadedFile = formData.get('file'); // store file
-
-            const response = await fetch('/upload', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await response.json();
-            renderTable(data);
-
-            // Enable calculate button
-            document.getElementById('calcButton').disabled = false;
-        });
-
-        // Calculate HMPI event
-        document.getElementById('calcButton').addEventListener('click', async () => {
-            if (!uploadedFile) return alert("No file uploaded!");
-
-            const formData = new FormData();
-            formData.append('file', uploadedFile);
-
-            const response = await fetch('/calculate', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await response.json();
-            renderTable(data);
-
-            // Enable map button
-            document.getElementById('mapButton').disabled = false;
-        });
-
-        // View Map event
-        document.getElementById('mapButton').addEventListener('click', () => {
-            // Open map.html in a new tab
-            window.open('/map', '_blank');
-        });
-    </script>
-</body>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
 </html>
