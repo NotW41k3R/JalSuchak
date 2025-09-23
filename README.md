@@ -1,5 +1,4 @@
-# hmpi-calculator
-Heavy Metal Pollution Index Calculator
+JalSuchak - A Heavy Metal Water Pollution Index Calculator 
 
 Background :-
 
@@ -44,12 +43,12 @@ Roadmap for Prototype :-
 
 3. Generate a basic output file with HMPI Column added. (Done)
 
-4. Good Looking UI. (Left) 
+4. Good Looking UI. (Done)
    Result shown directly on webpage instead of separate spreadsheet. (Done).
-   Makes it user-friendly for scientists, researchers, and policymakers. (Left)
-   Validate and standardize geo-coordinates (Latitude/Longitude) for integration with maps. (Left)
+   Makes it user-friendly for scientists, researchers, and policymakers. (Done)
+   Validate and standardize geo-coordinates (Latitude/Longitude) for integration with maps. (Done)
 
-5. Folium/Map Integration for basic HMPI with colored values for quality index.
+5. Geopandas and Folium based Map for basic HMPI with colored values for quality index. (Done)
 
 6. Generate Maps and Trends based on Time Stamped Data.
 
@@ -62,6 +61,6 @@ Roadmap for Prototype :-
 10. With consent from the user, use their database to produce a combined map for all HMPI calculation.
 
 Tech Stack :-
-HTML, CSS, JS,
-Python, Flask, Pandas, Numpy,
-(Either Leaflet or Folium)
+Front-end: HTML, CSS, JS
+Back-end: Python (Pandas, Numpy, Flask)
+Map: Pandas and Folium
