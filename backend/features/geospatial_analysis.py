@@ -48,7 +48,7 @@ class GeoSpatialAnalyser:
             popup='Info:',# Popup when clicked
             tooltip='HMPI',    # Show on hover
             tiles='CartoDB positron',  # map style
-            marker_kwds={'radius': 6, 'fill': True, 'color': 'black'}, # Describe the Point
+            marker_kwds={'radius': 5, 'fill': True, 'color': 'black'}, # Describe the Point
             zoom_start=15
         )
 
