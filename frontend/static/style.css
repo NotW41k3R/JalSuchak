@@ -98,12 +98,19 @@ nav {
   height: 50px;
   box-shadow: 0 0 5px 2px rgba(0, 255, 255, 0.8); /* Glow effect */
 }
-
 .logo-section h1 {
-  color: #ffffff;
   font-size: 1.8rem;
   font-weight: 800;
   letter-spacing: 0.05em;
+
+  /* Gradient text */
+  background: linear-gradient(
+    0deg, 
+     rgb(28, 99, 147),
+     rgb(95, 232, 195)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* 1. Hide the entire 'hide' container by default */
@@ -147,12 +154,20 @@ body[data-view="map"] #map-section {
 
 .hero-section {
   text-align: center;
-  padding: 2rem;
+    padding: 0.1rem 1rem; 
   background-color: #1f2937;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  margin-bottom: 1.5rem;
+  width: 100vw;         /* full viewport width */
+  margin: 0;            /* remove outside gap */
+  border-radius: 0;     /* remove box shape */
+  box-shadow: none;     /* optional: remove floating effect */
+  position: relative;   /* ensure it respects viewport */
+  left: 50%;            /* align back to viewport */
+  transform: translateX(-50%);
+  height: fit-content; /* remove container offset */
+}
+
+#copy{
+  padding: 0.8rem;
 }
 
 #calculator-section {
@@ -603,13 +618,13 @@ footer p:last-child {
 }
 
 #step-icon-1 {
-  background-color: #ffc107;
+  background-color: #26bd49;
 }
 #step-icon-2 {
-  background-color: #ff7707;
+  background-color: #ffc107;
 }
 #step-icon-3 {
-  background-color: #56d141;
+  background-color: #de2d27;
 }
 
 .sidebar-area {
