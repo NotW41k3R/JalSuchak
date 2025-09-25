@@ -60,6 +60,8 @@ Roadmap for Prototype :-
 
 10. With consent from the user, use their database to produce a combined map for all HMPI calculation.
 
+11. Add AI Integration to generate trends and recommend solution for each metal contamination.
+
 Tech Stack :-
 Front-end: HTML, CSS, JS
 
