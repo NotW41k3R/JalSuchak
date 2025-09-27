@@ -50,7 +50,7 @@ Roadmap for Prototype :-
 
 5. Geopandas and Folium based Map for basic HMPI with colored values for quality index. (Done)
 
-6. Add an Awareness page on website that informs the user about the effects of heavy metal contamination, and also a Did You Know Box on Home Page that Roatates through the effects.
+6. Add an Awareness page on website that informs the user about the effects of heavy metal contamination, and also a Did You Know Box on Home Page that Rotates through the effects.
    
 7. Generate Maps and Trends based on Time Stamped Data.
 
