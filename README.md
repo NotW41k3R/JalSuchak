@@ -50,9 +50,9 @@ Roadmap for Prototype :-
 
 5. Geopandas and Folium based Map for basic HMPI with colored values for quality index. (Done)
 
-6. Generate Maps and Trends based on Time Stamped Data.
-
-7. Add PDF as a valid input for Data Processing.
+6. Add an Awareness page on website that informs the user about the effects of heavy metal contamination, and also a Did You Know Box on Home Page that Roatates through the effects.
+   
+7. Generate Maps and Trends based on Time Stamped Data.
 
 8. Add the functionality to directly produce a report which combines the input data, HMPI, Map, Graphs, Trends etc into a single PDF for easy access or research.
 
@@ -62,6 +62,7 @@ Roadmap for Prototype :-
 
 11. Add AI Integration to generate trends and recommend solution for each metal contamination.
 
+12. Add PDF as a valid input for Data Processing.
 Tech Stack :-
 Front-end: HTML, CSS, JS
 
