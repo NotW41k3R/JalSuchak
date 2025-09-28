@@ -1,7 +1,7 @@
 print("Script started")
 import os
 import pandas as pd
-from flask import Flask, request, jsonify, render_template, session, redirect, url_for 
+from flask import Flask, request, jsonify, render_template, session, redirect, url_for, send_file 
 
 from backend.features.data_processing import DataProcessor
 from backend.features.hmpi_calculation import  HMPICalculation
@@ -121,6 +121,24 @@ def generate_map():
         return map_html
     else:
         return "No coordinates found in data.", 400
+    
+@app.route('/download', methods=['GET'])
+def download_csv():
+
+    if 'df_cache' not in session:
+        return "Download Couldn't be Provided :(", 400
+    
+    # Correct key spelling
+    df = pd.read_pickle(session['df_cache'])
+    df2 = format.prettify(df)
+    output_csv = outputter.output(df2)
+
+    return send_file(
+        output_csv,
+        as_attachment=True,
+        download_name='HMPI_Results.csv',
+        mimetype='text/csv'
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
