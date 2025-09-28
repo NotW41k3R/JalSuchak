@@ -112,7 +112,7 @@ class DataProcessor:
             else:  # still strip spaces but don’t lowercase
                 df[col] = df[col].astype(str).str.strip()
                 df[col] = df[col].replace({'': pd.NA, 'nd': pd.NA})
-
+        # Make thing to take modulus of concentration
         # 3. Convert metal columns to numeric
         for col in df.columns:
             if col not in ['sample_id', 'latitude', 'longitude', 'location', 'date_collected']:
